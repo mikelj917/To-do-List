@@ -1,0 +1,9 @@
+{
+  "scripts": {
+  "dev": "tailwindcss -i ./src/css/input.css -o ./dist/styles.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}
