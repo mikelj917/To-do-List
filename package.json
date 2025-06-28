@@ -1,9 +1,18 @@
 {
   "scripts": {
-  "dev": "tailwindcss -i ./src/css/input.css -o ./dist/styles.css --watch"
+    "dev": "tailwindcss -i ./src/css/input.css -o ./dist/styles.css --watch"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
     "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.1",
+    "prettier-plugin-tailwindcss": "^0.6.13"
   }
 }

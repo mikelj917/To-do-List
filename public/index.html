@@ -1,11 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Tarefas</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="/dist/styles.css" />
+  </head>
+  <body class="bg-zinc-100">
+    <div class="container m-8 mx-auto max-w-2xl">
+      <div class="rounded-lg bg-white p-8 pb-4 shadow-xl">
+        <h1 class="mb-4 text-center font-serif text-3xl font-semibold">
+          Lista de Tarefas
+        </h1>
+
+        <!-- Input para adicionar tarefas -->
+        <div class="flex gap-4">
+          <input
+            type="text"
+            placeholder="Digite uma nova tarefa..."
+            class="w-full rounded-md border-1 border-zinc-300 p-2"
+          />
+          <button
+            class="flex cursor-pointer items-center gap-1 rounded-md bg-green-500 px-4 py-2 font-semibold text-white transition-colors hover:bg-green-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-5"
+            >
+              <path
+                d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z"
+              />
+            </svg>
+
+            Adicionar
+          </button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="mt-4 flex gap-3">
+          <button
+            data-active="true"
+            data-filter="all"
+            class="filter-btn cursor-pointer rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white transition-colors"
+          >
+            Todas
+          </button>
+
+          <button
+            data-active="false"
+            data-filter="pending"
+            class="filter-btn cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
+          >
+            Pendentes
+          </button>
+
+          <button
+            data-active="false"
+            data-filter="completed"
+            class="filter-btn cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
+          >
+            Concluídas
+          </button>
+        </div>
+
+        <!-- Lista onde as tarefas serão inseridas via JS -->
+        <ul>
+          
+        </ul>
+
+        <!-- Contador -->
+        <div class="mt-4 text-center text-sm opacity-50">
+          <span>0 tarefas restantes</span>
+        </div>
+      </div>
+    </div>
+    <script src="/src/js/script.js"></script>
+  </body>
 </html>
