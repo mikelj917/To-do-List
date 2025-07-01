@@ -18,9 +18,11 @@
           <input
             type="text"
             placeholder="Digite uma nova tarefa..."
+            id="task-input"
             class="w-full rounded-md border-1 border-zinc-300 p-2"
           />
           <button
+            id="addTask-btn"
             class="flex cursor-pointer items-center gap-1 rounded-md bg-green-500 px-4 py-2 font-semibold text-white transition-colors hover:bg-green-600"
           >
             <svg
@@ -43,7 +45,8 @@
           <button
             data-active="true"
             data-filter="all"
-            class="filter-btn cursor-pointer rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white transition-colors"
+            id="filter-btn"
+            class="cursor-pointer rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white transition-colors"
           >
             Todas
           </button>
@@ -51,7 +54,8 @@
           <button
             data-active="false"
             data-filter="pending"
-            class="filter-btn cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
+            id="filter-btn"
+            class="cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
           >
             Pendentes
           </button>
@@ -59,16 +63,15 @@
           <button
             data-active="false"
             data-filter="completed"
-            class="filter-btn cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
+            id="filter-btn"
+            class="cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
           >
             Concluídas
           </button>
         </div>
 
         <!-- Lista onde as tarefas serão inseridas via JS -->
-        <ul>
-          
-        </ul>
+        <ul></ul>
 
         <!-- Contador -->
         <div class="mt-4 text-center text-sm opacity-50">
@@ -76,6 +79,7 @@
         </div>
       </div>
     </div>
+    <script src="/src/js/filterBtn.js"></script>
     <script src="/src/js/script.js"></script>
   </body>
 </html>
