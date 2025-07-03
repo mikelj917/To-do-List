@@ -6,8 +6,11 @@ const taskElementStates = {
   pending: "flex items-center rounded-lg bg-zinc-200/30 p-3",
   completed: "flex items-center rounded-lg bg-green-100/80 p-3 line-through opacity-70",
 }
+const state = {
+  isEditing: false,
+}
+
 let tasks = [];
-let isEditing = false;
 
 document.addEventListener("DOMContentLoaded", initializeApp());
 
@@ -21,7 +24,7 @@ function initializeApp() {
 
 function setupAddTask() {
   document.getElementById("addTask-btn").addEventListener("click", () => {
-    if (isEditing) return;
+    if (state.isEditing) return;
     const taskInput = document.getElementById("task-input");
     const taskText = taskInput.value.trim();
 
@@ -47,7 +50,7 @@ function setupFilter() {
   const filterBtns = document.querySelectorAll("#filter-btn");
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      if (isEditing) return;
+      if (state.isEditing) return;
       filterBtns.forEach((btn) => {
         btn.dataset.active = false;
         btn.className = filterBtnStates.idle;
@@ -140,7 +143,7 @@ function setupToggleCheckbox() {
   const taskList = document.getElementById("tasksList");
 
   taskList.addEventListener("click", (event) => {
-    if (isEditing) return;
+    if (state.isEditing) return;
     const checkbox = event.target.closest(".complete-checkbox");
     if (checkbox) {
       const id = checkbox.dataset.id;
@@ -158,7 +161,7 @@ function setupDeleteTask() {
   const taskList = document.getElementById("tasksList");
 
   taskList.addEventListener("click", (event) => {
-    if (isEditing) return;
+    if (state.isEditing) return;
     const deleteBtn = event.target.closest(".delete-btn");
     if (deleteBtn) {
       const id = deleteBtn.dataset.id;
@@ -174,49 +177,81 @@ function setupDeleteTask() {
 
 function setupEditTask() {
   const taskList = document.getElementById("tasksList");
-  isEditing = false;
+  state.isEditing = false;
 
   taskList.addEventListener("click", (event) => {
-    const editButton = event.target.closest(".edit-btn")
+    const editButton = event.target.closest(".edit-btn");
+    if (!editButton || state.isEditing) return;
 
-    if (editButton && !isEditing) {
-      const id = editButton.dataset.id;
-      const foundTask = tasks.find(task => task.id === id);
-      const taskElement = editButton.closest("li");
-      const confirmButton = taskElement.querySelector(".confirm-btn");
-      const deleteButton = taskElement.querySelector(".delete-btn");
-      const checkbox = taskElement.querySelector(".complete-checkbox");
-      const taskSpan = taskElement.querySelector('span');
-      const inputEl = document.createElement("input");
-      document.activeElement.blur();
-      inputEl.type = "text";
-      inputEl.value = taskSpan.innerText;
-      inputEl.className = "grow-1 mr-3 bg-zinc-100 border border-zinc-300 rounded p-1 focus:outline-none focus:ring-2 focus:ring-green-500";
+    const id = editButton.dataset.id;
+    const task = tasks.find(task => task.id === id);
+    const taskElement = editButton.closest("li");
 
-      editButton.classList.add("hidden");
-      deleteButton.classList.add("hidden");
-      checkbox.classList.add("hidden");
-      confirmButton.classList.remove("hidden");
+    enterEditMode(taskElement, task);
+  });
 
-      isEditing = true;
-      taskElement.replaceChild(inputEl, taskSpan);
-      inputEl.focus();
+  function createInputEl(taskSpan) {
+    const inputEl = document.createElement("input");
+    document.activeElement.blur();
+    inputEl.type = "text";
+    inputEl.value = taskSpan.innerText;
+    inputEl.className = "grow-1 mr-3 bg-zinc-100 border border-zinc-300 rounded p-1 focus:outline-none focus:ring-2 focus:ring-green-500";
+    return inputEl;
+  }
 
-      confirmButton.addEventListener("click", () => {
-        foundTask.task = inputEl.value;
-        renderTasks();
-        isEditing = false;
-      })
+  function enterEditConfirmMode(taskElement) {
+    const editButton = taskElement.querySelector(".edit-btn");
+    const deleteButton = taskElement.querySelector(".delete-btn");
+    const checkbox = taskElement.querySelector(".complete-checkbox");
+    const confirmButton = taskElement.querySelector(".confirm-btn");
 
-      inputEl.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          foundTask.task = inputEl.value;
-          renderTasks();
-          isEditing = false;
-        }
-      })
+    editButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    checkbox.classList.add("hidden");
+    confirmButton.classList.remove("hidden");
+  }
+
+  function enterEditMode(taskElement, task) {
+    state.isEditing = true;
+    enterEditConfirmMode(taskElement);
+
+    const taskSpan = taskElement.querySelector("span");
+    const inputEl = createInputEl(taskSpan);
+
+    // Substitui o span pelo input
+    taskElement.replaceChild(inputEl, taskSpan);
+    inputEl.focus();
+
+    // Agora configura a confirmação
+    confirmEdit(taskElement, task, inputEl);
+  }
+
+  function confirmEdit(taskElement, task, inputEl) {
+    const confirmButton = taskElement.querySelector(".confirm-btn");
+
+    // Remove listener anterior para evitar múltiplos handlers
+    confirmButton.replaceWith(confirmButton.cloneNode(true));
+    const newConfirmButton = taskElement.querySelector(".confirm-btn");
+
+    newConfirmButton.addEventListener("click", () => saveEditedTask( task, inputEl));
+
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") saveEditedTask(task, inputEl);
+    });
+  }
+
+  function saveEditedTask(task, inputEl) {
+    const newValue = inputEl.value.trim();
+    if (newValue.length === 0) {
+      alert("A tarefa não pode estar vazia!");
+      return;
     }
-  })
+
+    task.task = newValue;
+    state.isEditing = false;
+
+    renderTasks();
+  }
 }
 
 function countTasks() {
