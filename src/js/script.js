@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", initializeApp());
 function initializeApp() {
   setupFilter();
   setupAddTask();
+  setupEditTask();
+  setupDeleteTask();
 }
 
 function setupAddTask() {
@@ -32,6 +34,7 @@ function setupAddTask() {
 
 function addTask(taskText) {
   tasks.push({
+    id: Date.now().toString(),
     task: taskText,
     completed: false
   })
@@ -68,19 +71,19 @@ function renderTasks(filter) {
   const filteredTasks = filterTasks(filter);
   taskList.innerHTML = "";
 
-  filteredTasks.forEach((task, index) => {
+  filteredTasks.forEach((task) => {
     const taskElement = document.createElement("li");
     taskElement.className = `${task.completed ? taskElementStates.completed : taskElementStates.pending}`
     taskElement.innerHTML = `
       <input
         type="checkbox"
         class="complete-checkbox mr-3 cursor-pointer"
-        data-index="${index}"
+        data-id="${task.id}"
         ${task.completed ? "checked" : ""}
       />
       <span>${task.task}</span>
       <div class="flex grow-1 justify-end gap-2">
-        <button class="cursor-pointer rounded-sm bg-blue-400 px-2 py-1" data-index="${index}">
+        <button class="edit-btn cursor-pointer rounded-sm bg-blue-400 px-2 py-1" data-id="${task.id}">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -96,7 +99,7 @@ function renderTasks(filter) {
             />
           </svg>
         </button>
-        <button class="cursor-pointer rounded-sm bg-red-500 px-2 py-1" data-index="${index}">
+        <button class="delete-btn cursor-pointer rounded-sm bg-red-500 px-2 py-1" data-id="${task.id}">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -114,22 +117,44 @@ function renderTasks(filter) {
         </button>
       </div>`
 
-      taskList.appendChild(taskElement);
-      setupToggleCheckbox();
-      countTasks();
+    taskList.appendChild(taskElement);
   })
+
+  setupToggleCheckbox();
+  countTasks();
 }
 
 function setupToggleCheckbox() {
   const checkboxes = document.querySelectorAll(".complete-checkbox");
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", (event) => {
-      const index = event.target.dataset.index;
-      tasks[index].completed = event.target.checked;
+      const id = event.target.dataset.id;
+      const foundTask = tasks.find(task => task.id === id);
+      foundTask.completed = event.target.checked
 
       renderTasks();
     })
   })
+}
+
+function setupDeleteTask() {
+  const taskList = document.getElementById("tasksList");
+
+  taskList.addEventListener("click", (event) => {
+    const deleteBtn = event.target.closest(".delete-btn");
+    if (deleteBtn) {
+      const id = deleteBtn.dataset.id;
+      const index = tasks.findIndex(task => task.id === id);
+      console.log(index)
+      tasks.splice(index, 1);
+
+      renderTasks();
+    }
+  });
+}
+
+function setupEditTask() {
+
 }
 
 function countTasks() {
