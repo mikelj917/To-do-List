@@ -7,18 +7,21 @@ const taskElementStates = {
   completed: "flex items-center rounded-lg bg-green-100/80 p-3 line-through opacity-70",
 }
 let tasks = [];
+let isEditing = false;
 
 document.addEventListener("DOMContentLoaded", initializeApp());
 
 function initializeApp() {
   setupFilter();
   setupAddTask();
+  setupToggleCheckbox();
   setupEditTask();
   setupDeleteTask();
 }
 
 function setupAddTask() {
   document.getElementById("addTask-btn").addEventListener("click", () => {
+    if (isEditing) return;
     const taskInput = document.getElementById("task-input");
     const taskText = taskInput.value.trim();
 
@@ -44,6 +47,7 @@ function setupFilter() {
   const filterBtns = document.querySelectorAll("#filter-btn");
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
+      if (isEditing) return;
       filterBtns.forEach((btn) => {
         btn.dataset.active = false;
         btn.className = filterBtnStates.idle;
@@ -81,30 +85,39 @@ function renderTasks(filter) {
         data-id="${task.id}"
         ${task.completed ? "checked" : ""}
       />
-      <span>${task.task}</span>
-      <div class="flex grow-1 justify-end gap-2">
-        <button class="edit-btn cursor-pointer rounded-sm bg-blue-400 px-2 py-1" data-id="${task.id}">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="white"
-            class="size-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-            />
+      <span class="grow-1">${task.task}</span>
+      <div class="flex justify-end gap-2">
+        <button class="confirm-btn cursor-pointer rounded-sm bg-green-500 px-2 py-1 hidden hover:bg-green-400" data-id="${task.id}">
+          <svg xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="3"
+          stroke="white"
+          class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
           </svg>
         </button>
-        <button class="delete-btn cursor-pointer rounded-sm bg-red-500 px-2 py-1" data-id="${task.id}">
+        <button class="edit-btn cursor-pointer rounded-sm bg-blue-500 px-2 py-1 hover:bg-blue-400" data-id="${task.id}">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            stroke-width="2"
+            stroke="white"
+            class="size-5">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+              />
+          </svg>
+        </button>
+        <button class="delete-btn cursor-pointer rounded-sm bg-red-500 px-2 py-1 hover:bg-red-400" data-id="${task.id}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
             stroke="white"
             class="size-5"
           >
@@ -120,20 +133,24 @@ function renderTasks(filter) {
     taskList.appendChild(taskElement);
   })
 
-  setupToggleCheckbox();
   countTasks();
 }
 
 function setupToggleCheckbox() {
-  const checkboxes = document.querySelectorAll(".complete-checkbox");
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", (event) => {
-      const id = event.target.dataset.id;
+  const taskList = document.getElementById("tasksList");
+
+  taskList.addEventListener("click", (event) => {
+    if (isEditing) return;
+    const checkbox = event.target.closest(".complete-checkbox");
+    if (checkbox) {
+      const id = checkbox.dataset.id;
       const foundTask = tasks.find(task => task.id === id);
-      foundTask.completed = event.target.checked
+      if (foundTask) {
+        foundTask.completed = event.target.checked
+      }
 
       renderTasks();
-    })
+    }
   })
 }
 
@@ -141,20 +158,65 @@ function setupDeleteTask() {
   const taskList = document.getElementById("tasksList");
 
   taskList.addEventListener("click", (event) => {
+    if (isEditing) return;
     const deleteBtn = event.target.closest(".delete-btn");
     if (deleteBtn) {
       const id = deleteBtn.dataset.id;
       const index = tasks.findIndex(task => task.id === id);
-      console.log(index)
-      tasks.splice(index, 1);
+      if (index > -1) {
+        tasks.splice(index, 1);
+      }
 
       renderTasks();
     }
-  });
+  })
 }
 
 function setupEditTask() {
+  const taskList = document.getElementById("tasksList");
+  isEditing = false;
 
+  taskList.addEventListener("click", (event) => {
+    const editButton = event.target.closest(".edit-btn")
+
+    if (editButton && !isEditing) {
+      const id = editButton.dataset.id;
+      const foundTask = tasks.find(task => task.id === id);
+      const taskElement = editButton.closest("li");
+      const confirmButton = taskElement.querySelector(".confirm-btn");
+      const deleteButton = taskElement.querySelector(".delete-btn");
+      const checkbox = taskElement.querySelector(".complete-checkbox");
+      const taskSpan = taskElement.querySelector('span');
+      const inputEl = document.createElement("input");
+      document.activeElement.blur();
+      inputEl.type = "text";
+      inputEl.value = taskSpan.innerText;
+      inputEl.className = "grow-1 mr-3 bg-zinc-100 border border-zinc-300 rounded p-1 focus:outline-none focus:ring-2 focus:ring-green-500";
+
+      editButton.classList.add("hidden");
+      deleteButton.classList.add("hidden");
+      checkbox.classList.add("hidden");
+      confirmButton.classList.remove("hidden");
+
+      isEditing = true;
+      taskElement.replaceChild(inputEl, taskSpan);
+      inputEl.focus();
+
+      confirmButton.addEventListener("click", () => {
+        foundTask.task = inputEl.value;
+        renderTasks();
+        isEditing = false;
+      })
+
+      inputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          foundTask.task = inputEl.value;
+          renderTasks();
+          isEditing = false;
+        }
+      })
+    }
+  })
 }
 
 function countTasks() {
