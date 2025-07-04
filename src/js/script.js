@@ -15,6 +15,7 @@ let tasks = [];
 document.addEventListener("DOMContentLoaded", initializeApp());
 
 function initializeApp() {
+  displaySavedTasks();
   setupFilter();
   setupAddTask();
   setupToggleCheckbox();
@@ -157,6 +158,7 @@ function renderTasks() {
   })
 
   countTasks();
+  saveTasks();
 }
 
 function setupToggleCheckbox() {
@@ -300,4 +302,14 @@ function setupEditTask() {
 function countTasks() {
   const pendingTasks = tasks.filter(task => !task.completed).length;
   document.getElementById("counter").innerHTML = pendingTasks;
+}
+
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks))
+}
+
+function displaySavedTasks() {
+  const savedTasks = localStorage.getItem("tasks");
+  tasks = savedTasks ? JSON.parse(savedTasks) : [];
+  renderTasks()
 }
