@@ -29,7 +29,8 @@ function setupAddTask() {
     const taskText = taskInput.value.trim();
 
     if (taskText === "") {
-      return alert("Digite uma tarefa...")
+      alert("Digite uma tarefa...");
+      return;
     }
 
     addTask(taskText);
@@ -190,30 +191,9 @@ function setupEditTask() {
     enterEditMode(taskElement, task);
   });
 
-  function createInputEl(taskSpan) {
-    const inputEl = document.createElement("input");
-    document.activeElement.blur();
-    inputEl.type = "text";
-    inputEl.value = taskSpan.innerText;
-    inputEl.className = "grow-1 mr-3 bg-zinc-100 border border-zinc-300 rounded p-1 focus:outline-none focus:ring-2 focus:ring-green-500";
-    return inputEl;
-  }
-
-  function enterEditConfirmMode(taskElement) {
-    const editButton = taskElement.querySelector(".edit-btn");
-    const deleteButton = taskElement.querySelector(".delete-btn");
-    const checkbox = taskElement.querySelector(".complete-checkbox");
-    const confirmButton = taskElement.querySelector(".confirm-btn");
-
-    editButton.classList.add("hidden");
-    deleteButton.classList.add("hidden");
-    checkbox.classList.add("hidden");
-    confirmButton.classList.remove("hidden");
-  }
-
   function enterEditMode(taskElement, task) {
     state.isEditing = true;
-    enterEditConfirmMode(taskElement);
+    updateButtonsForConfirm(taskElement);
 
     const taskSpan = taskElement.querySelector("span");
     const inputEl = createInputEl(taskSpan);
@@ -226,6 +206,27 @@ function setupEditTask() {
     confirmEdit(taskElement, task, inputEl);
   }
 
+  function createInputEl(taskSpan) {
+    const inputEl = document.createElement("input");
+    document.activeElement.blur();
+    inputEl.type = "text";
+    inputEl.value = taskSpan.innerText;
+    inputEl.className = "grow-1 mr-3 bg-zinc-100 border border-zinc-300 rounded p-1 focus:outline-none focus:ring-2 focus:ring-green-500";
+    return inputEl;
+  }
+
+  function updateButtonsForConfirm(taskElement) {
+    const editButton = taskElement.querySelector(".edit-btn");
+    const deleteButton = taskElement.querySelector(".delete-btn");
+    const checkbox = taskElement.querySelector(".complete-checkbox");
+    const confirmButton = taskElement.querySelector(".confirm-btn");
+
+    editButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    checkbox.classList.add("hidden");
+    confirmButton.classList.remove("hidden");
+  }
+
   function confirmEdit(taskElement, task, inputEl) {
     const confirmButton = taskElement.querySelector(".confirm-btn");
 
@@ -233,7 +234,7 @@ function setupEditTask() {
     confirmButton.replaceWith(confirmButton.cloneNode(true));
     const newConfirmButton = taskElement.querySelector(".confirm-btn");
 
-    newConfirmButton.addEventListener("click", () => saveEditedTask( task, inputEl));
+    newConfirmButton.addEventListener("click", () => saveEditedTask(task, inputEl));
 
     inputEl.addEventListener("keydown", (e) => {
       if (e.key === "Enter") saveEditedTask(task, inputEl);
