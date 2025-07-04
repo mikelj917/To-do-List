@@ -41,12 +41,11 @@
         </div>
 
         <!-- Filtros -->
-        <div class="mt-4 flex gap-3">
+        <div class="filters-container mt-4 flex gap-3">
           <button
             data-active="true"
             data-filter="all"
-            id="filter-btn"
-            class="cursor-pointer rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white transition-colors"
+            class="filter-btn cursor-pointer rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white transition-colors"
           >
             Todas
           </button>
@@ -54,8 +53,7 @@
           <button
             data-active="false"
             data-filter="pending"
-            id="filter-btn"
-            class="cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
+            class="filter-btn cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
           >
             Pendentes
           </button>
@@ -63,8 +61,7 @@
           <button
             data-active="false"
             data-filter="completed"
-            id="filter-btn"
-            class="cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
+            class="filter-btn cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300"
           >
             Concluídas
           </button>

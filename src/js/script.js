@@ -1,6 +1,6 @@
 const filterBtnStates = {
-  idle: "cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300",
-  active: "cursor-pointer rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white transition-colors",
+  idle: "filter-btn cursor-pointer rounded-md bg-zinc-200 px-4 py-1 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-300",
+  active: "filter-btn cursor-pointer rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white transition-colors",
 }
 const taskElementStates = {
   pending: "flex items-center rounded-lg bg-zinc-200/30 p-3",
@@ -48,7 +48,7 @@ function addTask(taskText) {
 }
 
 function setupFilter() {
-  const filterBtns = document.querySelectorAll("#filter-btn");
+  const filterBtns = document.querySelectorAll(".filter-btn");
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       if (state.isEditing) return;
@@ -60,8 +60,7 @@ function setupFilter() {
       btn.dataset.active = true;
       btn.className = filterBtnStates.active;
 
-      const filter = btn.dataset.filter;
-      renderTasks(filter);
+      renderTasks();
     });
   })
 }
@@ -74,9 +73,15 @@ function filterTasks(filter = "all") {
   })
 }
 
-function renderTasks(filter) {
+function renderTasks() {
+  const ActualFilter = () => {
+    const filterBtnsContainer = document.querySelector(".filters-container");
+    const activeFilterBtn = filterBtnsContainer.querySelector('[data-active="true"]');
+    return activeFilterBtn?.dataset.filter || "all";
+  }
+  const filteredTasks = filterTasks(ActualFilter());
+
   const taskList = document.getElementById("tasksList");
-  const filteredTasks = filterTasks(filter);
   taskList.innerHTML = "";
 
   filteredTasks.forEach((task) => {
@@ -123,7 +128,8 @@ function renderTasks(filter) {
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0
+                0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
               />
           </svg>
         </button>
@@ -139,7 +145,9 @@ function renderTasks(filter) {
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
-              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772
+              5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964
+              0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
             />
           </svg>
         </button>
@@ -192,19 +200,19 @@ function setupEditTask() {
   state.isEditing = false;
 
   taskList.addEventListener("click", (event) => {
-    const editButton = event.target.closest(".edit-btn");
-    if (!editButton || state.isEditing) return;
+    const editBtn = event.target.closest(".edit-btn");
+    if (!editBtn || state.isEditing) return;
 
-    const id = editButton.dataset.id;
+    const id = editBtn.dataset.id;
     const task = tasks.find(task => task.id === id);
-    const taskElement = editButton.closest("li");
+    const taskElement = editBtn.closest("li");
 
     enterEditMode(taskElement, task);
   });
 
   function enterEditMode(taskElement, task) {
     state.isEditing = true;
-    updateButtonsForConfirm(taskElement);
+    updateBtnsForConfirm(taskElement);
 
     const taskSpan = taskElement.querySelector("span");
     const inputEl = createInputEl(taskSpan);
@@ -227,28 +235,28 @@ function setupEditTask() {
     return inputEl;
   }
 
-  function updateButtonsForConfirm(taskElement) {
-    const editButton = taskElement.querySelector(".edit-btn");
-    const deleteButton = taskElement.querySelector(".delete-btn");
+  function updateBtnsForConfirm(taskElement) {
+    const editBtn = taskElement.querySelector(".edit-btn");
+    const deleteBtn = taskElement.querySelector(".delete-btn");
     const checkbox = taskElement.querySelector(".complete-checkbox");
-    const confirmButton = taskElement.querySelector(".confirm-btn");
-    const cancelButton = taskElement.querySelector(".cancel-btn");
+    const confirmBtn = taskElement.querySelector(".confirm-btn");
+    const cancelBtn = taskElement.querySelector(".cancel-btn");
 
-    editButton.classList.add("hidden");
-    deleteButton.classList.add("hidden");
+    editBtn.classList.add("hidden");
+    deleteBtn.classList.add("hidden");
     checkbox.classList.add("hidden");
-    confirmButton.classList.remove("hidden");
-    cancelButton.classList.remove("hidden");
+    confirmBtn.classList.remove("hidden");
+    cancelBtn.classList.remove("hidden");
   }
 
   function setupConfirmEdit(taskElement, task, inputEl) {
-    const confirmButton = taskElement.querySelector(".confirm-btn");
+    const confirmBtn = taskElement.querySelector(".confirm-btn");
 
     // Remove listener anterior para evitar múltiplos handlers
-    confirmButton.replaceWith(confirmButton.cloneNode(true));
-    const newConfirmButton = taskElement.querySelector(".confirm-btn");
+    confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+    const newConfirmBtn = taskElement.querySelector(".confirm-btn");
 
-    newConfirmButton.addEventListener("click", () => saveEditedTask(task, inputEl));
+    newConfirmBtn.addEventListener("click", () => saveEditedTask(task, inputEl));
 
     inputEl.addEventListener("keydown", (e) => {
       if (e.key === "Enter") saveEditedTask(task, inputEl);
@@ -269,13 +277,13 @@ function setupEditTask() {
   }
 
   function setupCancelEdit(taskElement, inputEl) {
-    const cancelButton = taskElement.querySelector(".cancel-btn");
+    const cancelBtn = taskElement.querySelector(".cancel-btn");
 
     // Remove listener anterior para evitar múltiplos handlers
-    cancelButton.replaceWith(cancelButton.cloneNode(true));
-    const newCancelButton = taskElement.querySelector(".cancel-btn");
+    cancelBtn.replaceWith(cancelBtn.cloneNode(true));
+    const newCancelBtn = taskElement.querySelector(".cancel-btn");
 
-    newCancelButton.addEventListener("click", () => {
+    newCancelBtn.addEventListener("click", () => {
       renderTasks();
       state.isEditing = false;
     })
