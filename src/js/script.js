@@ -93,13 +93,24 @@ function renderTasks(filter) {
       <div class="flex justify-end gap-2">
         <button class="confirm-btn cursor-pointer rounded-sm bg-green-500 px-2 py-1 hidden hover:bg-green-400" data-id="${task.id}">
           <svg xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="3"
-          stroke="white"
-          class="size-5">
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="3"
+            stroke="white"
+            class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
           </svg>
+        </button>
+        <button class="cancel-btn cursor-pointer rounded-sm bg-red-500 px-2 py-1 hidden hover:bg-red-400" data-id="${task.id}">
+          <svg xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="3"
+            stroke="white"
+            class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+
         </button>
         <button class="edit-btn cursor-pointer rounded-sm bg-blue-500 px-2 py-1 hover:bg-blue-400" data-id="${task.id}">
           <svg
@@ -202,8 +213,9 @@ function setupEditTask() {
     taskElement.replaceChild(inputEl, taskSpan);
     inputEl.focus();
 
-    // Agora configura a confirmação
-    confirmEdit(taskElement, task, inputEl);
+    // Configura os eventos de confirmação e cancelamento
+    setupConfirmEdit(taskElement, task, inputEl);
+    setupCancelEdit(taskElement, inputEl);
   }
 
   function createInputEl(taskSpan) {
@@ -220,14 +232,16 @@ function setupEditTask() {
     const deleteButton = taskElement.querySelector(".delete-btn");
     const checkbox = taskElement.querySelector(".complete-checkbox");
     const confirmButton = taskElement.querySelector(".confirm-btn");
+    const cancelButton = taskElement.querySelector(".cancel-btn");
 
     editButton.classList.add("hidden");
     deleteButton.classList.add("hidden");
     checkbox.classList.add("hidden");
     confirmButton.classList.remove("hidden");
+    cancelButton.classList.remove("hidden");
   }
 
-  function confirmEdit(taskElement, task, inputEl) {
+  function setupConfirmEdit(taskElement, task, inputEl) {
     const confirmButton = taskElement.querySelector(".confirm-btn");
 
     // Remove listener anterior para evitar múltiplos handlers
@@ -252,6 +266,26 @@ function setupEditTask() {
     state.isEditing = false;
 
     renderTasks();
+  }
+
+  function setupCancelEdit(taskElement, inputEl) {
+    const cancelButton = taskElement.querySelector(".cancel-btn");
+
+    // Remove listener anterior para evitar múltiplos handlers
+    cancelButton.replaceWith(cancelButton.cloneNode(true));
+    const newCancelButton = taskElement.querySelector(".cancel-btn");
+
+    newCancelButton.addEventListener("click", () => {
+      renderTasks();
+      state.isEditing = false;
+    })
+
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        renderTasks();
+        state.isEditing = false;
+      }
+    });
   }
 }
 
