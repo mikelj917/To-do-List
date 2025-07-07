@@ -8,11 +8,10 @@ const taskElementStates = {
 }
 const state = {
   isEditing: false,
+  tasks: [],
 }
 
-let tasks = [];
-
-document.addEventListener("DOMContentLoaded", initializeApp());
+document.addEventListener("DOMContentLoaded", initializeApp);
 
 function initializeApp() {
   displaySavedTasks();
@@ -38,14 +37,14 @@ function setupAddTask() {
     renderTasks();
     taskInput.value = "";
   });
-}
 
-function addTask(taskText) {
-  tasks.push({
+  function addTask(taskText) {
+  state.tasks.push({
     id: Date.now().toString(),
     task: taskText,
     completed: false
   })
+}
 }
 
 function setupFilter() {
@@ -67,7 +66,7 @@ function setupFilter() {
 }
 
 function filterTasks(filter = "all") {
-  return tasks.filter(task => {
+  return state.tasks.filter(task => {
     if (filter === "all") return true;
     if (filter === "pending") return !task.completed;
     if (filter === "completed") return task.completed;
@@ -75,12 +74,12 @@ function filterTasks(filter = "all") {
 }
 
 function renderTasks() {
-  const ActualFilter = () => {
+  const actualFilter = () => {
     const filterBtnsContainer = document.querySelector(".filters-container");
     const activeFilterBtn = filterBtnsContainer.querySelector('[data-active="true"]');
     return activeFilterBtn?.dataset.filter || "all";
   }
-  const filteredTasks = filterTasks(ActualFilter());
+  const filteredTasks = filterTasks(actualFilter());
 
   const taskList = document.getElementById("tasksList");
   taskList.innerHTML = "";
@@ -169,7 +168,7 @@ function setupToggleCheckbox() {
     const checkbox = event.target.closest(".complete-checkbox");
     if (checkbox) {
       const id = checkbox.dataset.id;
-      const foundTask = tasks.find(task => task.id === id);
+      const foundTask = state.tasks.find(task => task.id === id);
       if (foundTask) {
         foundTask.completed = event.target.checked
       }
@@ -187,9 +186,9 @@ function setupDeleteTask() {
     const deleteBtn = event.target.closest(".delete-btn");
     if (deleteBtn) {
       const id = deleteBtn.dataset.id;
-      const index = tasks.findIndex(task => task.id === id);
+      const index = state.tasks.findIndex(task => task.id === id);
       if (index > -1) {
-        tasks.splice(index, 1);
+        state.tasks.splice(index, 1);
       }
 
       renderTasks();
@@ -206,7 +205,7 @@ function setupEditTask() {
     if (!editBtn || state.isEditing) return;
 
     const id = editBtn.dataset.id;
-    const task = tasks.find(task => task.id === id);
+    const task = state.tasks.find(task => task.id === id);
     const taskElement = editBtn.closest("li");
 
     enterEditMode(taskElement, task);
@@ -300,16 +299,16 @@ function setupEditTask() {
 }
 
 function countTasks() {
-  const pendingTasks = tasks.filter(task => !task.completed).length;
+  const pendingTasks = state.tasks.filter(task => !task.completed).length;
   document.getElementById("counter").innerHTML = pendingTasks;
 }
 
 function saveTasks() {
-  localStorage.setItem("tasks", JSON.stringify(tasks))
+  localStorage.setItem("tasks", JSON.stringify(state.tasks))
 }
 
 function displaySavedTasks() {
   const savedTasks = localStorage.getItem("tasks");
-  tasks = savedTasks ? JSON.parse(savedTasks) : [];
+  state.tasks = savedTasks ? JSON.parse(savedTasks) : [];
   renderTasks()
 }
