@@ -22,6 +22,7 @@ Uma aplicação simples e funcional para gerenciamento de tarefas, construída c
   - **Confirmar**: salva a alteração feita na tarefa  
   - **Cancelar**: descarta a edição e volta ao texto original
   ![Imagem do input da task](./assets/images/task-input.png)
+  
   Essa abordagem garante que você possa revisar e confirmar as alterações antes de atualizar a lista, evitando erros acidentais.
 
 - **Excluir tarefas**  
