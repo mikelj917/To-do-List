@@ -15,14 +15,14 @@ document.addEventListener("DOMContentLoaded", initializeApp);
 
 function initializeApp() {
   displaySavedTasks();
-  setupFilter();
-  setupAddTask();
-  setupToggleCheckbox();
-  setupEditTask();
-  setupDeleteTask();
+  handleFilter();
+  handleAddTask();
+  handleToggleCheckbox();
+  handleEditTask();
+  handleDeleteTask();
 }
 
-function setupAddTask() {
+function handleAddTask() {
   document.getElementById("addTask-btn").addEventListener("click", () => {
     if (state.isEditing) return;
     const taskInput = document.getElementById("task-input");
@@ -39,15 +39,15 @@ function setupAddTask() {
   });
 
   function addTask(taskText) {
-  state.tasks.push({
-    id: Date.now().toString(),
-    task: taskText,
-    completed: false
-  })
-}
+    state.tasks.push({
+      id: Date.now().toString(),
+      task: taskText,
+      completed: false
+    })
+  }
 }
 
-function setupFilter() {
+function handleFilter() {
   const filterBtns = document.querySelectorAll(".filter-btn");
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -160,7 +160,7 @@ function renderTasks() {
   saveTasks();
 }
 
-function setupToggleCheckbox() {
+function handleToggleCheckbox() {
   const taskList = document.getElementById("tasksList");
 
   taskList.addEventListener("click", (event) => {
@@ -178,7 +178,7 @@ function setupToggleCheckbox() {
   })
 }
 
-function setupDeleteTask() {
+function handleDeleteTask() {
   const taskList = document.getElementById("tasksList");
 
   taskList.addEventListener("click", (event) => {
@@ -196,7 +196,7 @@ function setupDeleteTask() {
   })
 }
 
-function setupEditTask() {
+function handleEditTask() {
   const taskList = document.getElementById("tasksList");
   state.isEditing = false;
 
@@ -223,8 +223,8 @@ function setupEditTask() {
     inputEl.focus();
 
     // Configura os eventos de confirmação e cancelamento
-    setupConfirmEdit(taskElement, task, inputEl);
-    setupCancelEdit(taskElement, inputEl);
+    handleConfirmEdit(taskElement, task, inputEl);
+    handleCancelEdit(taskElement, inputEl);
   }
 
   function createInputEl(taskSpan) {
@@ -250,7 +250,7 @@ function setupEditTask() {
     cancelBtn.classList.remove("hidden");
   }
 
-  function setupConfirmEdit(taskElement, task, inputEl) {
+  function handleConfirmEdit(taskElement, task, inputEl) {
     const confirmBtn = taskElement.querySelector(".confirm-btn");
 
     // Remove listener anterior para evitar múltiplos handlers
@@ -277,7 +277,7 @@ function setupEditTask() {
     renderTasks();
   }
 
-  function setupCancelEdit(taskElement, inputEl) {
+  function handleCancelEdit(taskElement, inputEl) {
     const cancelBtn = taskElement.querySelector(".cancel-btn");
 
     // Remove listener anterior para evitar múltiplos handlers
