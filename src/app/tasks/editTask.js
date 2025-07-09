@@ -1,4 +1,5 @@
-import { setEditing } from "../state/state.js";
+import { state, setEditing, isEditing } from "../state/state.js";
+import { renderTasks } from "../view/render.js";
 
 export function handleEditTask() {
   const taskList = document.getElementById("tasksList");

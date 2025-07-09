@@ -1,5 +1,5 @@
 import { renderTasks } from "../view/render.js";
-import { state } from "../state/state.js";
+import { state, isEditing } from "../state/state.js";
 
 export function handleAddTask() {
   document.getElementById("addTask-btn").addEventListener("click", () => {
