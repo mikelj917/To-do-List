@@ -1,6 +1,5 @@
-import { toggleTaskCompletion } from "../tasks/updateTask.js";
-import { renderTasks } from "./render.js";
-import { isEditing } from "../state/state.js";
+import { renderTasks } from "./index.js";
+import { state, isEditing } from "../state/index.js";
 
 export function handleToggleCheckbox() {
   const taskList = document.getElementById("tasksList");
@@ -14,4 +13,9 @@ export function handleToggleCheckbox() {
       renderTasks();
     }
   })
+
+  function toggleTaskCompletion(id, completed) {
+    const task = state.tasks.find(task => task.id === id);
+    if (task) task.completed = completed
+  }
 }

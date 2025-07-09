@@ -1,4 +1,4 @@
-import { state } from "../state/state.js";
+import { state } from "../state/index.js";
 
 export function getActualFilter() {
   const filterBtnsContainer = document.querySelector(".filters-container");

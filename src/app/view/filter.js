@@ -1,6 +1,5 @@
-import { isEditing } from "../state/state.js";
-import { filterBtnStates } from "./uiStates.js";
-import { renderTasks } from "./render.js"
+import { isEditing, filterBtnStates } from "../state/index.js";
+import { renderTasks } from "./index.js"
 
 export function handleFilter() {
   const filterBtns = document.querySelectorAll(".filter-btn");

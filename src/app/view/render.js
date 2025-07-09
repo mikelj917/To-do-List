@@ -1,6 +1,5 @@
-import { getActualFilter, filterTasks } from "../tasks/filterTasks.js";
-import { taskElementStates } from "./uiStates.js";
-import { countTasks } from "./countTasks.js";
+import { getActualFilter, filterTasks, countTasks } from "../tasks/index.js";
+import { taskElementStates } from "../state/index.js";
 import { saveTasks } from "../services/saveTasks.js";
 
 export function renderTasks() {

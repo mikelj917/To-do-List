@@ -1,5 +1,5 @@
-import { renderTasks } from "../view/render.js";
-import { state, isEditing } from "../state/state.js";
+import { renderTasks } from "../view/index.js";
+import { state, isEditing } from "../state/index.js";
 
 export function handleDeleteTask() {
   const taskList = document.getElementById("tasksList");

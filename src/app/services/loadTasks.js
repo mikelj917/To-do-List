@@ -1,5 +1,5 @@
-import { state } from "../state/state.js";
-import { renderTasks } from "../view/render.js";
+import { state } from "../state/index.js";
+import { renderTasks } from "../view/index.js";
 
 export function displaySavedTasks() {
   const savedTasks = localStorage.getItem("tasks");
