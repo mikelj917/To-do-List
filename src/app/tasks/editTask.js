@@ -1,4 +1,4 @@
-import { state, setEditing, startEditing, stopEditing } from "../state/index.js";
+import { state, startEditing, stopEditing } from "../state/index.js";
 import { renderTasks } from "../view/index.js";
 
 export function handleEditTask() {
