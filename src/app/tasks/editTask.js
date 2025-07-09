@@ -1,9 +1,9 @@
-import { state, setEditing, isEditing } from "../state/index.js";
+import { state, setEditing, startEditing, stopEditing } from "../state/index.js";
 import { renderTasks } from "../view/index.js";
 
 export function handleEditTask() {
   const taskList = document.getElementById("tasksList");
-  setEditing(false);
+  startEditing();
 
   taskList.addEventListener("click", (event) => {
     const editBtn = event.target.closest(".edit-btn");
@@ -17,7 +17,7 @@ export function handleEditTask() {
   });
 
   function enterEditMode(taskElement, task) {
-    setEditing(true);
+    startEditing();
     updateBtnsForConfirm(taskElement);
 
     const taskSpan = taskElement.querySelector("span");
@@ -77,7 +77,7 @@ export function handleEditTask() {
     }
 
     task.task = newValue;
-    setEditing(false);
+    stopEditing();
 
     renderTasks();
   }
@@ -91,13 +91,13 @@ export function handleEditTask() {
 
     newCancelBtn.addEventListener("click", () => {
       renderTasks();
-      setEditing(false);
+      stopEditing();
     })
 
     inputEl.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         renderTasks();
-        setEditing(false);
+        stopEditing();
       }
     });
   }

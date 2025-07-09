@@ -3,8 +3,12 @@ export const state = {
   tasks: [],
 }
 
-export function setEditing(status) {
-  state.isEditing = status;
+export function startEditing() {
+  state.isEditing = true;
+}
+
+export function stopEditing() {
+  state.isEditing = false;
 }
 
 export function isEditing() {
