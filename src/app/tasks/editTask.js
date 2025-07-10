@@ -1,9 +1,9 @@
-import { state, startEditing, stopEditing } from "../state/index.js";
+import { state, isEditing, startEditing, stopEditing } from "../state/index.js";
 import { renderTasks } from "../view/index.js";
 
 export function handleEditTask() {
   const taskList = document.getElementById("tasksList");
-  startEditing();
+  stopEditing();
 
   taskList.addEventListener("click", (event) => {
     const editBtn = event.target.closest(".edit-btn");

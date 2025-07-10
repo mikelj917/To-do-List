@@ -1,9 +1,6 @@
-import { handleFilter } from "./view/filter.js";
+import { handleEditTask, handleDeleteTask, handleAddTask } from "./tasks/index.js";
+import { handleFilter, handleToggleCheckbox } from "./view/index.js";
 import { displaySavedTasks } from "./services/loadTasks.js";
-import { handleEditTask } from "./tasks/editTask.js";
-import { handleDeleteTask } from "./tasks/deleteTask.js";
-import { handleToggleCheckbox } from "./view/toggleCheckbox.js";
-import { handleAddTask } from "./tasks/addTask.js";
 
 document.addEventListener("DOMContentLoaded", initializeApp);
 
