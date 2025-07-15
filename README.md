@@ -4,7 +4,7 @@ Uma aplicação simples e funcional para gerenciamento de tarefas, construída c
 
 ## 📸 Demonstração
 
-![Imagem da Lista de Tarefas](./assets/images/to-do-list.png)
+![Imagem da Lista de Tarefas](./public/docs/images/to-do-list.png)
 
 ## 🚀 Funcionalidades
 
@@ -21,7 +21,7 @@ Uma aplicação simples e funcional para gerenciamento de tarefas, construída c
   Ao clicar no botão de edição de uma tarefa, o texto da tarefa se transforma em um campo de texto editável e aparecem dois novos botões:  
   - **Confirmar**: salva a alteração feita na tarefa  
   - **Cancelar**: descarta a edição e volta ao texto original
-  ![Imagem do input da task](./assets/images/task-input.png)
+  ![Imagem do input da task](./public/docs/images/task-input.png)
   
   Essa abordagem garante que você possa revisar e confirmar as alterações antes de atualizar a lista, evitando erros acidentais.
 
