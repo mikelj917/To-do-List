@@ -9,8 +9,20 @@
     "skipLibCheck": true,
     "noEmit": true,
     "allowJs": true,
-    "checkJs": false
+    "checkJs": false,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
-  "include": ["./src/app/**/*", "./public/index.html"],
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "src",
+    "index.html"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }
