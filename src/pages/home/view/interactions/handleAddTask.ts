@@ -1,9 +1,10 @@
 import { getElement, getInputValue, clearInput } from "shared/utils";
-import { states, isEditing } from "pages/home/state";
+import { tasks, getEditing } from "pages/home/state";
 import { createTask } from "pages/home/tasks/";
+import { renderTasks } from "../render/renderTasks";
 
 export function handleAddTask() {
-  if (isEditing()) return;
+  if (getEditing()) return;
 
   const input = getElement<HTMLInputElement>("#task-input");
   if (!input) throw new Error("Input element not found...");
@@ -14,6 +15,7 @@ export function handleAddTask() {
     return;
   }
 
-  states.tasks.push(createTask(taskText));
+  tasks.push(createTask(taskText));
+  renderTasks();
   clearInput(input);
 }
