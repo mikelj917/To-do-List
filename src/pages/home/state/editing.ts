@@ -1,13 +1,13 @@
-let isEditing: boolean = false;
+let editingValue: boolean = false;
 
 export function startEditing() {
-  isEditing = true;
+  editingValue = true;
 }
 
 export function stopEditing() {
-  isEditing = false;
+  editingValue = false;
 }
 
-export function getEditing(): boolean {
-  return isEditing;
+export function isEditing(): boolean {
+  return editingValue;
 }

@@ -1,5 +1,4 @@
-import { countPendingTasks, getFilter, tasks } from "pages/home/state";
-import { filterTasks } from "pages/home/tasks";
+import { countPendingTasks, getFilter, filterTasks, tasks } from "pages/home/state";
 import type { TaskType } from "pages/home/types";
 import { getElement } from "shared/utils";
 import { taskElement } from "../components";
@@ -7,12 +6,12 @@ import { renderCounter } from "./renderCounter";
 import { saveTasks } from "pages/home/services/localstorage/saveTasks";
 
 export function renderTasks() {
-  const filterdTasks = filterTasks(tasks, getFilter());
+  const filteredTasks = filterTasks(tasks, getFilter());
   const taskListEl = getElement<HTMLElement>("#tasks-list");
 
   if (!taskListEl) return;
   clearTaskList(taskListEl);
-  appendTasksToList(filterdTasks, taskListEl);
+  appendTasksToList(filteredTasks, taskListEl);
 
   const pendingTasks = countPendingTasks();
   renderCounter(pendingTasks);

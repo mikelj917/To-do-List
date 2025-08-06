@@ -1,11 +1,12 @@
-import { getEditing, setFilter } from "pages/home/state";
+import { isEditing, setFilter } from "pages/home/state";
 import { filterBtnStates } from "../styles/filterBtn";
+import { renderTasks } from "../render/renderTasks";
 
 export function handleFilterBtns(
   filterBtns: NodeListOf<HTMLButtonElement>,
   btn: HTMLButtonElement,
 ) {
-  if (getEditing()) return;
+  if (isEditing()) return;
   filterBtns.forEach((btn) => {
     btn.dataset.active = "false";
     btn.className = filterBtnStates.idle;
@@ -18,4 +19,5 @@ export function handleFilterBtns(
   if (filter === "all" || filter === "completed" || filter === "pending") {
     setFilter(filter);
   }
+  renderTasks();
 }

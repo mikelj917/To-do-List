@@ -1,2 +1,3 @@
-export * from "./setupAddTask";
-export * from "./setupFilterButtons";
+export * from "./addTask";
+export * from "./filterButtons";
+export * from "./toggleTask";
