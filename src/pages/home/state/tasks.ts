@@ -1,8 +1,13 @@
-import { TaskType } from "../types";
-import { getTasksFromStorage } from "../services/localstorage/getSavedTasks";
+import type { TaskType } from "../types";
+import { listTasks } from "../services/localstorage/getSavedTasks";
 import { generateID } from "shared/utils";
+import { filterTasks, getFilter } from "./filter";
 
-export const tasks: TaskType[] = getTasksFromStorage();
+export const tasks: TaskType[] = listTasks();
+
+export function getFilteredTasks() {
+  return filterTasks(tasks, getFilter());
+}
 
 export function countPendingTasks(): number {
   return tasks.filter((task) => !task.completed).length;
@@ -14,7 +19,7 @@ export function toggleTaskCompletion(id: string, completed: boolean) {
 }
 
 export function addTaskToState(taskText: string) {
-    tasks.push(createTask(taskText))
+  tasks.push(createTask(taskText));
 }
 
 function createTask(taskText: string) {

@@ -1,4 +1,4 @@
-import { TaskType } from "../types";
+import type { TaskType } from "../types";
 
 let currentFilter: "all" | "completed" | "pending" = "all";
 

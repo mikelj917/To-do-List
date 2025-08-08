@@ -1,13 +1,11 @@
 import { getElement, getInputValue, clearInput } from "shared/utils";
 import { addTaskToState, isEditing } from "pages/home/state";
-import { renderTasks } from "../render/renderTasks";
+import { updateUI } from "pages/home/controller/updateUI";
 
 export function handleAddTask() {
   if (isEditing()) return;
 
   const taskInput = getElement<HTMLInputElement>("#task-input");
-  if (!taskInput) throw new Error("Input element not found...");
-
   const taskText = getInputValue(taskInput);
   if (taskText === "") {
     alert("Digite uma tarefa...");
@@ -16,5 +14,5 @@ export function handleAddTask() {
 
   addTaskToState(taskText);
   clearInput(taskInput);
-  renderTasks();
+  updateUI();
 }

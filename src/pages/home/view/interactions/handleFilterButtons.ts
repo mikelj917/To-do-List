@@ -1,6 +1,6 @@
 import { isEditing, setFilter } from "pages/home/state";
 import { filterBtnStates } from "../styles/filterBtn";
-import { renderTasks } from "../render/renderTasks";
+import { updateUI } from "pages/home/controller/updateUI";
 
 export function handleFilterBtns(
   filterBtns: NodeListOf<HTMLButtonElement>,
@@ -19,5 +19,5 @@ export function handleFilterBtns(
   if (filter === "all" || filter === "completed" || filter === "pending") {
     setFilter(filter);
   }
-  renderTasks();
+  updateUI();
 }

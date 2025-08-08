@@ -3,7 +3,7 @@ import { taskElementStates } from "../styles/task";
 
 export function taskElement(task: TaskType) {
   const taskElement = document.createElement("li");
-  taskElement.className = `${task.completed ? taskElementStates.completed : taskElementStates.pending}`
+  taskElement.className = `${task.completed ? taskElementStates.completed : taskElementStates.pending}`;
   taskElement.innerHTML = `
     <input
       type="checkbox"
@@ -68,7 +68,7 @@ export function taskElement(task: TaskType) {
           />
         </svg>
       </button>
-    </div>`
+    </div>`;
 
   return taskElement;
 }
