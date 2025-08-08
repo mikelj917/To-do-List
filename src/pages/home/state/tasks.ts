@@ -18,6 +18,13 @@ export function toggleTaskCompletion(id: string, completed: boolean) {
   if (task) task.completed = completed;
 }
 
+export function removeTaskById(id: string) {
+  const index = tasks.findIndex((task) => task.id === id);
+  if (index > -1) {
+    tasks.splice(index, 1);
+  }
+}
+
 export function addTaskToState(taskText: string) {
   tasks.push(createTask(taskText));
 }

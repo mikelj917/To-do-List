@@ -11,7 +11,7 @@ export function handleToggleTask(event: Event) {
 
   const id = checkbox.dataset.id;
   if (!id) return;
-
   toggleTaskCompletion(id, checkbox.checked);
+  
   updateUI();
 }

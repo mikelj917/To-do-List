@@ -1,6 +1,7 @@
 import { updateUI } from "pages/home/controller/updateUI";
 import {
   setupAddTask,
+  setupDeleteTask,
   setupFilterBtns,
   setupToggleTask,
 } from "pages/home/view/setups";
@@ -12,4 +13,5 @@ function initializeApp() {
   setupAddTask();
   setupFilterBtns();
   setupToggleTask();
+  setupDeleteTask();
 }
