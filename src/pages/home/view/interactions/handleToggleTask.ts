@@ -9,9 +9,8 @@ export function handleToggleTask(event: Event) {
   ) as HTMLInputElement;
   if (!checkbox) return;
 
-  const id = checkbox.dataset.id;
-  if (!id) return;
+  const id = checkbox.dataset.id ?? "";
   toggleTaskCompletion(id, checkbox.checked);
-  
+
   updateUI();
 }

@@ -14,11 +14,18 @@ export function countPendingTasks(): number {
 }
 
 export function toggleTaskCompletion(id: string, completed: boolean) {
+  if (!id) throw new Error("ID not found...");
   const task = tasks.find((task) => task.id === id);
   if (task) task.completed = completed;
 }
 
+export function getTaskById(id: string) {
+  if (!id) throw new Error("ID not found...");
+  return tasks.find((task) => task.id === id);
+}
+
 export function removeTaskById(id: string) {
+  if (!id) throw new Error("ID not found...");
   const index = tasks.findIndex((task) => task.id === id);
   if (index > -1) {
     tasks.splice(index, 1);

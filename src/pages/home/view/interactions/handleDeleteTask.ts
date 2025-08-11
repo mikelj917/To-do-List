@@ -9,8 +9,7 @@ export function handleDeleteTask(event: Event) {
   ) as HTMLElement;
   if (!deleteBtn) return;
 
-  const id = deleteBtn.dataset.id;
-  if (!id) return;
+  const id = deleteBtn.dataset.id ?? "";
   removeTaskById(id);
 
   updateUI();
