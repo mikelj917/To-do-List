@@ -33,7 +33,7 @@ Uma aplicação simples e funcional para gerenciamento de tarefas, construída c
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **HTML** e **JavaScript moderno (ES6+)**
+- **HTML** e **TypeScript**
 - **Tailwind CSS** para estilização rápida.
 - **LocalStorage** para a persistência de dados no navegador.
 
