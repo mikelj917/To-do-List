@@ -1,5 +1,5 @@
 import type { TaskType } from "../types";
-import { listTasks } from "../services/localstorage/getSavedTasks";
+import { listTasks } from "../services/tasksStorage/getSavedTasks";
 import { generateID } from "shared/utils";
 import { filterTasks, getFilter } from "./filter";
 

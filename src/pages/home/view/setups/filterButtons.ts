@@ -1,5 +1,5 @@
 import { getElementList } from "shared/utils";
-import { handleFilterBtns } from "../interactions/handleFilterButtons";
+import { handleFilterBtns } from "../controllers/handleFilterButtons";
 
 export function setupFilterBtns() {
   const filterBtns = getElementList<HTMLButtonElement>(".filter-btn");
