@@ -1,5 +1,5 @@
 import { getElement } from "shared/utils";
-import { handleToggleTask } from "../interactions/handleToggleTask";
+import { handleToggleTask } from "../controllers/handleToggleTask";
 
 export function setupToggleTask() {
   getElement("#tasks-list").addEventListener("click", handleToggleTask);

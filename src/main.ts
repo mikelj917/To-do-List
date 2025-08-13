@@ -1,4 +1,4 @@
-import { updateUI } from "pages/home/controller/updateUI";
+import { updateUI } from "pages/home/view/render/updateUI"; 
 import {
   setupAddTask,
   setupDeleteTask,

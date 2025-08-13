@@ -1,3 +1,3 @@
-export * from "./editing";
+export * from "./editingTaskInput";
 export * from "./tasks";
 export * from "./filter";
