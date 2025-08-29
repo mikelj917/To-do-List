@@ -1,6 +1,6 @@
 import { isEditing, setFilter } from "pages/home/state";
 import { filterBtnStates } from "../styles/filterBtn";
-import { updateUI } from "pages/home/controller/updateUI";
+import { updateUI } from "../render/updateUI";
 
 export function handleFilterBtns(
   filterBtns: NodeListOf<HTMLButtonElement>,

@@ -1,7 +1,7 @@
 import { getElement } from "shared/utils";
-import { getFilteredTasks, countPendingTasks } from "../state";
-import { renderTasks, renderCounter } from "../view/render";
-import { saveTasks } from "../services/localstorage/saveTasks";
+import { getFilteredTasks, countPendingTasks } from "pages/home/state";
+import { renderTasks, renderCounter } from "../render";
+import { saveTasks } from "pages/home/services/tasksStorage/saveTasks";
 
 export function updateUI() {
   const filteredTasks = getFilteredTasks();
