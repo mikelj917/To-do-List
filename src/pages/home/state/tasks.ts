@@ -1,39 +1,41 @@
 import type { TaskType } from "../types";
 import { listTasks } from "../services/tasksStorage/getSavedTasks";
-import { generateID } from "shared/utils";
+import { generateID, signals } from "shared";
 import { filterTasks, getFilter } from "./filter";
 
-export const tasks: TaskType[] = listTasks();
+export const tasks = signals<TaskType[]>(listTasks());
 
 export function getFilteredTasks() {
-  return filterTasks(tasks, getFilter());
+  return filterTasks(tasks.get(), getFilter());
 }
 
 export function countPendingTasks(): number {
-  return tasks.filter((task) => !task.completed).length;
+  return tasks.get().filter((task) => !task.completed).length;
 }
 
 export function toggleTaskCompletion(id: string, completed: boolean) {
   if (!id) throw new Error("ID not found...");
-  const task = tasks.find((task) => task.id === id);
-  if (task) task.completed = completed;
+  tasks.set(
+    tasks.get().map(task => {
+      task.id === id ? { ...task, completed } : task
+    })
+  )
 }
 
 export function getTaskById(id: string) {
   if (!id) throw new Error("ID not found...");
-  return tasks.find((task) => task.id === id);
+  return tasks.get().find((task) => task.id === id);
 }
 
 export function removeTaskById(id: string) {
   if (!id) throw new Error("ID not found...");
-  const index = tasks.findIndex((task) => task.id === id);
-  if (index > -1) {
-    tasks.splice(index, 1);
-  }
+  tasks.set(
+    tasks.get().filter(task => task.id !== id)
+  )
 }
 
 export function addTaskToState(taskText: string) {
-  tasks.push(createTask(taskText));
+  tasks.set([...tasks.get(), createTask(taskText)])
 }
 
 function createTask(taskText: string) {

@@ -1,6 +1,6 @@
 import { getElement, getInputValue, clearInput } from "shared/utils";
 import { addTaskToState, isEditing } from "pages/home/state";
-import { updateUI } from "../render/updateUI";
+import { updateUI } from "../render";
 
 export function handleAddTask() {
   if (isEditing()) return;

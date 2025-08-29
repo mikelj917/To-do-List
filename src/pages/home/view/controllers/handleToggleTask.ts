@@ -1,5 +1,5 @@
 import { isEditing, toggleTaskCompletion } from "pages/home/state";
-import { updateUI } from "../render/updateUI";
+import { updateUI } from "../render";
 
 export function handleToggleTask(event: Event) {
   if (isEditing()) return;

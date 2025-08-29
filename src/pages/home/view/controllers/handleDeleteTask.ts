@@ -1,4 +1,4 @@
-import { updateUI } from "../render/updateUI";
+import { updateUI } from "../render";
 import { isEditing, removeTaskById } from "pages/home/state";
 
 export function handleDeleteTask(event: Event) {
