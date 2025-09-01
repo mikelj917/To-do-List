@@ -1,5 +1,5 @@
-import { updateUI } from "../render";
 import {
+  tasks,
   getTaskById,
   isEditing,
   removeTaskById,
@@ -7,6 +7,7 @@ import {
   stopEditing,
 } from "pages/home/state";
 import type { TaskType } from "pages/home/types";
+import { updateUI } from "../render";
 
 export function handleEditTask(event: Event) {
   const editBtn = (event.target as HTMLElement).closest(
@@ -24,7 +25,7 @@ export function handleEditTask(event: Event) {
 
 function enterEditMode(taskElement: HTMLLIElement, task: TaskType) {
   startEditing();
-  setTaskEditModeButtons(taskElement);
+  setTaskEditMode(taskElement);
 
   const taskSpan = taskElement.querySelector("span");
   if (!taskSpan) return;
@@ -65,11 +66,13 @@ function handleConfirmEdit(
     if (newValue.length === 0) {
       removeTaskById(task.id);
     } else {
-      task.task = newValue;
+      tasks.set(
+        tasks
+          .get()
+          .map((t) => (t.id === task.id ? { ...t, task: newValue } : t)),
+      );
     }
-
     stopEditing();
-    updateUI();
   }
 }
 
@@ -81,30 +84,38 @@ function handleCancelEdit(
   cancelBtn?.addEventListener(
     "click",
     () => {
-      updateUI();
       stopEditing();
+      updateUI();
     },
     { once: true },
   );
 
   inputEl.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      updateUI();
       stopEditing();
+      updateUI();
     }
   });
 }
 
-function setTaskEditModeButtons(taskElement: HTMLLIElement) {
+function setTaskEditMode(taskElement: HTMLLIElement) {
   const editBtn = taskElement.querySelector(".edit-btn");
   const deleteBtn = taskElement.querySelector(".delete-btn");
   const checkbox = taskElement.querySelector(".complete-checkbox");
   const confirmBtn = taskElement.querySelector(".confirm-btn");
   const cancelBtn = taskElement.querySelector(".cancel-btn");
 
-  editBtn?.classList.add("hidden");
-  deleteBtn?.classList.add("hidden");
-  checkbox?.classList.add("hidden");
-  confirmBtn?.classList.remove("hidden");
-  cancelBtn?.classList.remove("hidden");
+  if (isEditing()) {
+    editBtn?.classList.add("hidden");
+    deleteBtn?.classList.add("hidden");
+    checkbox?.classList.add("hidden");
+    confirmBtn?.classList.remove("hidden");
+    cancelBtn?.classList.remove("hidden");
+  } else {
+    editBtn?.classList.remove("hidden");
+    deleteBtn?.classList.remove("hidden");
+    checkbox?.classList.remove("hidden");
+    confirmBtn?.classList.add("hidden");
+    cancelBtn?.classList.add("hidden");
+  }
 }

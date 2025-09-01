@@ -1,4 +1,4 @@
-export function getTasksFromStorage() {
+function getTasksFromStorage() {
   const savedTasks = localStorage.getItem("tasks");
   return savedTasks;
 }

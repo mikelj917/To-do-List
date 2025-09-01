@@ -1,4 +1,4 @@
-import { getElement } from "shared/utils";
+import { effect, getElement } from "shared";
 import { getFilteredTasks, countPendingTasks } from "pages/home/state";
 import { renderTasks, renderCounter } from "../render";
 import { saveTasks } from "pages/home/services/tasksStorage/saveTasks";
@@ -12,5 +12,6 @@ export function updateUI() {
   const CounterEl = getElement<HTMLElement>("#counter");
   renderCounter(pendingTasks, CounterEl);
 
-  saveTasks();
+  saveTasks()
 }
+effect(updateUI);

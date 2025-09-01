@@ -1,4 +1,4 @@
-import { getElement } from "shared/utils";
+import { getElement } from "shared";
 import { handleDeleteTask } from "../controllers/handleDeleteTask";
 
 export function setupDeleteTask() {

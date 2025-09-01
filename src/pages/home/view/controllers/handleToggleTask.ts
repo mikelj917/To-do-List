@@ -1,5 +1,4 @@
 import { isEditing, toggleTaskCompletion } from "pages/home/state";
-import { updateUI } from "../render";
 
 export function handleToggleTask(event: Event) {
   if (isEditing()) return;
@@ -11,6 +10,4 @@ export function handleToggleTask(event: Event) {
 
   const id = checkbox.dataset.id ?? "";
   toggleTaskCompletion(id, checkbox.checked);
-
-  updateUI();
 }

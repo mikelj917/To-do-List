@@ -1,4 +1,4 @@
-import { getElement } from "shared/utils";
+import { getElement } from "shared";
 import { handleToggleTask } from "../controllers/handleToggleTask";
 
 export function setupToggleTask() {

@@ -17,7 +17,7 @@ function scheduleRun(fn: () => void) {
   }
 }
 
-export function signals<T>(initialValue: T) {
+export function signal<T>(initialValue: T) {
   let value: T = initialValue;
   const subscribers = new Set<() => void>();
 
@@ -26,7 +26,7 @@ export function signals<T>(initialValue: T) {
       if (activeEffect) subscribers.add(activeEffect);
       return value;
     },
-    set(newValue: any) {
+    set(newValue: T) {
       value = newValue
       Array.from(subscribers).forEach(sub => scheduleRun(sub))
     }

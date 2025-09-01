@@ -1,4 +1,4 @@
-import { getElementList } from "shared/utils";
+import { getElementList } from "shared";
 import { handleFilterBtns } from "../controllers/handleFilterButtons";
 
 export function setupFilterBtns() {

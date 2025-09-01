@@ -1,6 +1,5 @@
-import { isEditing, setFilter } from "pages/home/state";
+import { isEditing, filter } from "pages/home/state";
 import { filterBtnStates } from "../styles/filterBtn";
-import { updateUI } from "../render";
 
 export function handleFilterBtns(
   filterBtns: NodeListOf<HTMLButtonElement>,
@@ -15,9 +14,8 @@ export function handleFilterBtns(
   btn.dataset.active = "true";
   btn.className = filterBtnStates.active;
 
-  const filter: string = btn.dataset.filter || "all";
-  if (filter === "all" || filter === "completed" || filter === "pending") {
-    setFilter(filter);
+  const currentFilter: string = btn.dataset.filter || "all";
+  if (currentFilter === "all" || currentFilter === "completed" || currentFilter === "pending") {
+    filter.set(currentFilter);
   }
-  updateUI();
 }

@@ -1,4 +1,3 @@
-import { updateUI } from "../render";
 import { isEditing, removeTaskById } from "pages/home/state";
 
 export function handleDeleteTask(event: Event) {
@@ -11,6 +10,4 @@ export function handleDeleteTask(event: Event) {
 
   const id = deleteBtn.dataset.id ?? "";
   removeTaskById(id);
-
-  updateUI();
 }

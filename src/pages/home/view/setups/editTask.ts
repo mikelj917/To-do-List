@@ -1,4 +1,4 @@
-import { getElement } from "shared/utils";
+import { getElement } from "shared";
 import { handleEditTask } from "../controllers/handleEditTask";
 
 export function setupEditTask() {

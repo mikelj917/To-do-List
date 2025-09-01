@@ -1,18 +1,11 @@
 import type { TaskType } from "../types";
+import { signal } from "shared";
 
-let currentFilter: "all" | "completed" | "pending" = "all";
-
-export function setFilter(filter: typeof currentFilter) {
-  currentFilter = filter;
-}
-
-export function getFilter() {
-  return currentFilter;
-}
+export const filter = signal<"all" | "completed" | "pending">("all");
 
 export function filterTasks(
   tasks: TaskType[],
-  filter: "all" | "pending" | "completed" = "all",
+  filter: "all" | "pending" | "completed"
 ) {
   return tasks.filter((task) => {
     if (filter === "all") return true;
