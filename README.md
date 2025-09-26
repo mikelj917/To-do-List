@@ -1,6 +1,6 @@
 # Lista de Tarefas
 
-Uma aplicação simples e funcional para gerenciamento de tarefas, construída com HTML, JavaScript e estilizada com Tailwind CSS.
+Uma aplicação simples e funcional para gerenciamento de tarefas, construída com HTML, TypeScript e estilizada com Tailwind CSS.
 
 ## 📸 Demonstração
 
