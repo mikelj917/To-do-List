@@ -2,6 +2,8 @@
 
 Uma aplicação simples e funcional para gerenciamento de tarefas, construída com HTML, TypeScript e estilizada com Tailwind CSS.
 
+Acesse o projeto aqui: https://to-do-list-iota-wine.vercel.app/
+
 ## 📸 Demonstração
 
 ![Imagem da Lista de Tarefas](./public/docs/images/to-do-list.png)
